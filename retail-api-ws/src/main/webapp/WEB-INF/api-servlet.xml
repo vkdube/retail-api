@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       
+    <!-- the application context definition for the springapp DispatcherServlet -->
+    <import resource="classpath:application-loyalty.xml"/>
+    <import resource="classpath:application-search.xml"/>
+    <import resource="classpath:application-reservations.xml"/>
+    <import resource="classpath:application-lookups.xml"/>
+    <import resource="classpath:application-echeckin.xml"/>
+    <import resource="classpath:application-offers.xml"/>
+    <import resource="classpath:application-hotel.xml"/>
+    <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="location" value="classpath:xml-views.xml" />
+    </bean>
+
+</beans>

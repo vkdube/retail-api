@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class product.ProductTestSpec</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class product.ProductTestSpec</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/product.html">product</a> &gt; ProductTestSpec</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">0</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">-</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">-</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>09:49:47.286 [cb-io-85-3] DEBUG c.c.client.core.endpoint.Endpoint - [localhost/127.0.0.1:8093][QueryEndpoint]: Connected Endpoint.
+09:49:47.286 [cb-io-85-3] DEBUG c.c.c.c.e.AbstractGenericHandler - [localhost/127.0.0.1:8093][QueryEndpoint]: Channel Active.
+09:49:47.286 [cb-io-85-2] DEBUG c.c.client.core.endpoint.Endpoint - [localhost/127.0.0.1:8092][ViewEndpoint]: Connected Endpoint.
+09:49:47.287 [cb-io-85-2] DEBUG com.couchbase.client.core.node.Node - Connected (DEGRADED) to Node localhost/127.0.0.1
+09:49:47.287 [cb-io-85-2] DEBUG c.c.c.c.e.AbstractGenericHandler - [localhost/127.0.0.1:8092][ViewEndpoint]: Channel Active.
+Feature: A Product Search and Update.
+  To allow a user to find a product and update the price
+
+  Scenario: Search product by Id                                                                    ?[90m# product/productSpec.feature:4?[0m
+    ?[33mGiven ?[0m?[33ma external API to retrieve the product name by Id '13860428'?[0m
+    ?[33mAnd ?[0m?[33ma external API provides the product name to be retrieved for the product Id?[0m
+    ?[33mAnd ?[0m?[33mto read pricing information from a NoSQL data source and combines it with the product Id?[0m
+    ?[33mWhen ?[0m?[33mthe user searches for product name 'The Big Lebowski (Blu-ray)' with entered Id '13860428'?[0m
+    ?[33mThen ?[0m?[33mproduct Id '13860428' should have been found?[0m
+    ?[33mAnd ?[0m?[33ma product name 'The Big Lebowski (Blu-ray)' should be shown?[0m
+    ?[33mAnd ?[0m?[33ma product price '13.49' should be shown?[0m
+    ?[33mAnd ?[0m?[33ma product currency 'USD' should be shown?[0m
+
+  Scenario Outline: Modify a product's price                             ?[90m# product/productSpec.feature:14?[0m
+    ?[36mGiven ?[0m?[36ma product id = &lt;id&gt;, price = &lt;price&gt; and currency = &lt;currency&gt;?[0m
+    ?[36mWhen ?[0m?[36mthe product's price is updated?[0m
+    ?[36mThen ?[0m?[36mthe result should be &lt;result&gt;?[0m
+
+    Examples: 
+
+  Scenario Outline: Modify a product's price                          ?[90m# product/productSpec.feature:24?[0m
+    ?[33mGiven ?[0m?[33ma product id = 99999999, price = 9999.99 and currency = USD?[0m
+    ?[36mWhen ?[0m?[36mthe product's price is updated?[0m                               ?[90m# ProductSteps.updateProductPrice()?[0m
+    ?[36mThen ?[0m?[36mthe result should be false?[0m                                   ?[90m# ProductSteps.the_result_should_be_false()?[0m
+
+6 Scenarios (?[33m6 undefined?[0m)
+23 Steps (?[36m10 skipped?[0m, ?[33m13 undefined?[0m)
+0m0.000s
+
+
+You can implement missing steps with the snippets below:
+
+@Given(&quot;^a external API to retrieve the product name by Id '(\\d+)'$&quot;)
+public void a_external_API_to_retrieve_the_product_name_by_Id(int arg1) throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Given(&quot;^a external API provides the product name to be retrieved for the product Id$&quot;)
+public void a_external_API_provides_the_product_name_to_be_retrieved_for_the_product_Id() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Given(&quot;^to read pricing information from a NoSQL data source and combines it with the product Id$&quot;)
+public void to_read_pricing_information_from_a_NoSQL_data_source_and_combines_it_with_the_product_Id() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@When(&quot;^the user searches for product name 'The Big Lebowski \\(Blu-ray\\)' with entered Id '(\\d+)'$&quot;)
+public void the_user_searches_for_product_name_The_Big_Lebowski_Blu_ray_with_entered_Id(int arg1) throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then(&quot;^product Id '(\\d+)' should have been found$&quot;)
+public void product_Id_should_have_been_found(int arg1) throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then(&quot;^a product name 'The Big Lebowski \\(Blu-ray\\)' should be shown$&quot;)
+public void a_product_name_The_Big_Lebowski_Blu_ray_should_be_shown() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then(&quot;^a product price '(\\d+)\\.(\\d+)' should be shown$&quot;)
+public void a_product_price_should_be_shown(int arg1, int arg2) throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Then(&quot;^a product currency 'USD' should be shown$&quot;)
+public void a_product_currency_USD_should_be_shown() throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Given(&quot;^a product id = (\\d+), price = (\\d+)\\.(\\d+) and currency = USD$&quot;)
+public void a_product_id_price_and_currency_USD(int arg1, int arg2, int arg3) throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+@Given(&quot;^a product id = (\\d+), price = (\\d+)\\.(\\d+) and currency = EUR$&quot;)
+public void a_product_id_price_and_currency_EUR(int arg1, int arg2, int arg3) throws Throwable {
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException();
+}
+
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 2.6</a> at Sep 8, 2016 9:49:50 AM</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+description = 'retail-api-service'
+apply plugin: 'groovy'
+apply plugin: 'java'
+
+configurations {
+	all*.exclude group: 'commons-digester', module: 'commons-digester'
+}
+repositories {
+	jcenter()
+	// Spock releases are available from Maven Central
+	mavenCentral()
+	// Spock snapshots are available from the Sonatype OSS snapshot repository
+	maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+}
+test {
+	scanForTestClasses false
+	include "**/*Spec.class"
+	exclude "**/*IntegrationSpec.class"
+	exclude "**/*FunctionalSpec.class"
+	testLogging {
+		events 'started', 'passed'
+	}
+}
+
+sourceSets.test.output.classesDir = "build/classes/test"
+
+sourceSets {
+	test {
+		groovy {
+			srcDir 'src/test/groovy'
+		}
+	}
+}
+dependencies {
+	 compile project(':retail-api-data')
+	 compile project(':retail-api-entity')
+
+}
+

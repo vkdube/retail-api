@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="product.ProductTestSpec" tests="0" skipped="0" failures="0" errors="0" timestamp="1970-01-01T00:00:00" hostname="Lenovo-PC" time="0.0">
+  <properties/>
+  <system-out><![CDATA[15:10:11.180 [cb-io-85-3] DEBUG c.c.client.core.endpoint.Endpoint - [localhost/127.0.0.1:8093][QueryEndpoint]: Connected Endpoint.
+15:10:11.181 [cb-io-85-3] DEBUG c.c.c.c.e.AbstractGenericHandler - [localhost/127.0.0.1:8093][QueryEndpoint]: Channel Active.
+15:10:11.181 [cb-io-85-2] DEBUG c.c.client.core.endpoint.Endpoint - [localhost/127.0.0.1:8092][ViewEndpoint]: Connected Endpoint.
+15:10:11.181 [cb-io-85-2] DEBUG com.couchbase.client.core.node.Node - Connected (DEGRADED) to Node localhost/127.0.0.1
+15:10:11.182 [cb-io-85-2] DEBUG c.c.c.c.e.AbstractGenericHandler - [localhost/127.0.0.1:8092][ViewEndpoint]: Channel Active.
+No features found at [classpath:product]
+
+0 Scenarios
+0 Steps
+0m0.000s
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

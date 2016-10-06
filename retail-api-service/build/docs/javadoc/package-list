@@ -1,0 +1,9 @@
+com.retail.business
+com.retail.business.domain.product
+com.retail.business.service
+com.retail.business.service.request
+com.retail.business.service.response
+com.retail.business.services.product
+com.retail.business.services.product.impl
+com.retail.business.services.request
+com.retail.business.services.response

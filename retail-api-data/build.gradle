@@ -1,0 +1,20 @@
+description = 'retail-api-data'
+
+apply plugin: 'java'
+
+def couchbaseVersion = '2.3.1'
+
+configurations.all {
+    exclude group: 'commons-digester', module: 'commons-digester'
+    exclude group: 'commons-logging', module: 'commons-logging'
+}
+dependencies {
+   	 //couchbase nosql client
+	 compile group: 'com.couchbase.client', name: 'java-client', version: couchbaseVersion
+	 compile group: 'org.springframework.data', name: 'spring-data-couchbase', version: '1.0.0.RELEASE'
+	 
+	 compile project(':retail-api-entity')
+	 
+	 testCompile "junit:junit:4.12"
+}
+

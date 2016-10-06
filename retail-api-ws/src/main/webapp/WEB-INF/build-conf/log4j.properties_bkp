@@ -1,0 +1,16 @@
+log4j.rootLogger=OFF
+
+# General Logging
+log4j.logger.com.hilton=INFO, A1
+log4j.appender.A1=org.apache.log4j.RollingFileAppender
+log4j.appender.A1.File=/opt/tomcat-6.0.29/webapps/ROOT/re.log
+log4j.appender.A1.layout=org.apache.log4j.PatternLayout
+log4j.appender.A1.layout.ConversionPattern=%d %5p [%C:%M] - %m%n
+
+# GPM Transaction Logging
+log4j.logger.com.hilton.hhonors.reimbursement.data.gpm.MessageSender=INFO, A2
+log4j.additivity.com.hilton.hhonors.reimbursement.data.gpm.MessageSender=false
+log4j.appender.A2=org.apache.log4j.RollingFileAppender
+log4j.appender.A2.File=/opt/tomcat-6.0.29/webapps/ROOT/gpm-transaction.log
+log4j.appender.A2.layout=org.apache.log4j.PatternLayout
+log4j.appender.A2.layout.ConversionPattern=%d %5p [%C:%M] - %m%n

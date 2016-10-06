@@ -1,0 +1,5 @@
+com.retail.api.rs.config
+com.retail.api.rs.v1.resources
+com.retail.api.rs.v1.resources.products
+com.retail.api.service.product
+com.retail.api.service.transformer.product

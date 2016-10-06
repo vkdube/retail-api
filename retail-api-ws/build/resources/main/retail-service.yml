@@ -1,0 +1,4 @@
+defaultTimezone: UTC
+http:
+  port: 9000
+  adminPort: 9001

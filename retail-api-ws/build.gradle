@@ -1,0 +1,179 @@
+import org.codehaus.groovy.runtime.DateGroovyMethods
+apply plugin: 'application'  //dropWizard - apply plugin
+apply plugin: 'war'
+apply plugin: 'org.akhikhl.gretty'
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+
+description = 'retail-api-ws'
+
+// dropWizard - ext
+project.ext {
+	configPath = "$rootProject.projectDir"
+	dropwizardVersion = '0.6.2'
+	cucumberVersion = '1.2.2'
+}
+
+def javaVersion = '1.8'
+apply plugin: 'eclipse-wtp'
+eclipse {
+	wtp {
+		facet 	{
+			facet name: 'wst.jsdt.web', version: '1.0'
+			facet name: 'java', version: javaVersion
+			facet name: 'jst.web', version: '3.0'
+		}
+	}
+}
+buildscript {
+	repositories {
+		jcenter()
+		//maven {
+		//	url "https://plugins.gradle.org/m2/"
+		//  }
+	}
+	dependencies { 
+		 classpath 'org.akhikhl.gretty:gretty:1.2.4' 
+		 classpath 'net.swisstech:gradle-dropwizard:+' //dropWizard - classpath 
+	}
+}
+configurations.all {
+	exclude group: 'commons-logging', module: 'commons-logging'
+	//exclude group: 'logback-classic', module: 'logback-classic'
+}
+test {
+	scanForTestClasses false
+	include "**/*Spec.class"
+	include "**/*Spec.feature"
+	exclude "**/*IntegrationSpec.class"
+	exclude "**/*FunctionalSpec.class"
+	testLogging { events 'started', 'passed' }
+}
+sourceSets.test.output.classesDir = "build/classes/test"
+sourceSets {
+	main {
+		groovy { srcDir 'src/main/groovy' }
+	}
+	test {
+		groovy { srcDir 'src/test/groovy' }
+	}
+}
+dependencies {
+	compile group: 'org.glassfish.jersey.test-framework.providers', name: 'jersey-test-framework-provider-grizzly2', version:'2.6'
+	compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version:'2.6'
+	compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version:'2.6'
+	// jetty		
+	runtime group: 'jetty', name: 'org.mortbay.jetty.plus', version:'5.1.10'
+	compile 'com.google.code.findbugs:jsr305:3.0.0'
+
+	testCompile(group: 'org.codehaus.groovy.modules.http-builder', name: 'http-builder', version:'0.7') {
+		exclude(module: 'commons-logging')
+	}
+
+	compile 'com.sun.codemodel:codemodel:2.6'
+	// cucumber -
+	compile group: 'info.cukes', name: 'cucumber-java', version: cucumberVersion
+	compile group: 'info.cukes', name: 'cucumber-junit', version: cucumberVersion
+	testCompile group: 'org.hamcrest', name: 'hamcrest-core', version:'1.3' // only necessary if Hamcrest matchers are used
+	//dropWizard - 
+	compile group: 'com.yammer.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+	// Reimb - others
+	compile group: 'commons-collections', name: 'commons-collections', version: '3.2.1'
+	// Junit without it's own hamcrest
+	 testCompile('junit:junit:4.12'){
+		exclude group: 'org.hamcrest'
+	 }
+	 // TestNG -
+	 compile group: 'org.testng', name: 'testng', version :'6.5.2'
+	 
+	compile project(':retail-api-service')
+	compile project(':retail-api-data')
+	compile project(':retail-api-entity')
+	
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.7'
+	compile group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.12'
+	compile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+	compile group: 'cglib', name: 'cglib', version: '2.2'
+	
+	// for metrics & logback
+	compile group: 'io.dropwizard.metrics', name: 'metrics-core', version:'3.1.0'
+	compile group: 'io.dropwizard.metrics', name: 'metrics-annotation', version:'3.1.0'
+	compile group: 'ch.qos.logback.contrib', name: 'logback-json-core', version:'0.1.2'
+	compile group: 'ch.qos.logback.contrib', name: 'logback-json-classic', version:'0.1.2'
+	compile group: 'ch.qos.logback.contrib', name: 'logback-jackson', version:'0.1.2'
+	// gretty dependencies
+	gretty group: 'commons-dbcp', name: 'commons-dbcp', version:'1.4'
+	gretty group: 'org.apache.tomcat', name: 'tomcat-dbcp', version: '8.0.23'  // has support of 8.0.28 and 8.0.30 too.
+}
+// Generates a war distribution of the web app war file
+def baseDir=System.getProperty("baseDir")
+task webAppWar(description: 'Generates a war distribution of the web app war file') << {
+	logger.info("Generating a war distribution of the web app war file: ${war.archiveName}")
+	def buildVersionFilePath = "${baseDir}/BuildVersion.txt"
+	println "BuildVersion buildVersionFilePath: ${buildVersionFilePath}"
+	// Generate the content to the written into the BuildVersion.txt file
+	def buildVersionContent = "Release version: ${project.version}"
+	if (reSvnRev?.trim()) {
+		buildVersionContent += "\nretail-re revision: ${reSvnRev}"
+	}
+	buildVersionContent += "\nBuild time: ${new Date()}"
+	// Write the BuilVersion.txt file into the webapp directory
+	def buildVersionFile = new File(buildVersionFilePath)
+	buildVersionFile.createNewFile()
+	buildVersionFile.write(buildVersionContent)
+}
+
+war {
+	archiveName = ("../war/retail-api-ws-${project.version}" + "-" + DateGroovyMethods.format(new Date(), "yyyyMMdd") +".war").replaceAll("SNAPSHOT", "RELEASE")
+}
+ext {
+	integrationTestContainers = [
+		'tomcat7',
+		'tomcat8',
+		'jetty9'
+	]
+}
+
+gretty {
+	//Tomcat support for local RE development. Jetty9 still works with the servletContainer = 'jetty9' gradle property
+	servletContainer = 'jetty9'
+	//servletContainer = project.hasProperty('container') ? container : 'tomcat8'
+	contextPath = 'retail-api-ws'
+	httpsEnabled = true
+	fastReload = true
+	recompileOnSourceChange = true
+	reloadOnClassChange = true
+	reloadOnConfigChange = true
+	reloadOnLibChange = true
+	inplaceMode = 'hard'
+	host = 'localhost'
+	httpPort = 8080
+	enableNaming = true
+	managedClassReload = true
+	// Configure JVM Properties only for DEV ENV
+	jvmArgs = [
+		'-Xmx1024m',
+		'-Xms256m',
+		'-XX:+HeapDumpOnOutOfMemoryError'
+		//'-agentlib:TakipiAgent', // for events monitoring usng Takipi
+		//'-Dtakipi.sources.path=C:\\workspace-api\\java8-upgrade-branches\\re-upgrade-2.0\\retail-api'
+	]
+
+}
+
+// Configure debug true on test
+task runTests(description: 'configure to debug test',type: JavaExec, dependsOn: 'classes') {
+	if (System.getProperty('DEBUG', 'false') == 'true') {
+		jvmArgs '-Xdebug',
+				'-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
+	}
+}
+// dropWizard - The main class of the application
+mainClassName = 'com.retail.api.service.product.RetailProductService'
+// dropWizard - Configure the run task to start the Dropwizard service
+run {
+    args 'server', './src/main/resources/retail-service.yml'
+}
+// to run Restful dropWizard application use the -  clean run

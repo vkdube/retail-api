@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- @author vinod.g.dube -->
+<configuration debug="true" scan="true">
+	<property name="LOG_DIR_AUDIT_HOME" value="/opt/tomcat-6.0.29/webapps/ROOT" />
+	<property name="LOG_DIR_ARCHIVE_HOME" value="/opt/RE/logs/archived" />
+	<property name="MAX_DAYS_LOG_HISTORY" value="30" />
+	<property name="MAX_LOG_FILE_SIZE" value="10MB" />
+	<property name="FLUSH_SETTING" value="true" />
+	<jmxConfigurator />
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+			<layout class="ch.qos.logback.classic.PatternLayout">
+				<Pattern>
+					%d{"yyyy-MM-dd HH:mm:ss,SSS"} %-5level [%logger - %M] - %msg%n
+				</Pattern>
+			</layout>
+			<immediateFlush>${FLUSH_SETTING}</immediateFlush>
+		</encoder>
+	</appender>
+
+	<appender name="RE_LOG_FILE_AUDIT"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_DIR_AUDIT_HOME}/re.log.1</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{"yyyy-MM-dd HH:mm:ss,SSS"} %-5level [%logger - %M] -
+				%msg%n
+			</Pattern>
+			<immediateFlush>${FLUSH_SETTING}</immediateFlush>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOG_DIR_ARCHIVE_HOME}/re.%d{yyyy-MM-dd}.%i.log.gz
+			</fileNamePattern>
+			<!-- keep number of days' worth of history -->
+			<maxHistory>${MAX_DAYS_LOG_HISTORY}</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${MAX_LOG_FILE_SIZE}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<cleanHistoryOnStart>false</cleanHistoryOnStart>
+		</rollingPolicy>
+
+	</appender>
+
+	<appender name="RE_GPM_TXN_FILE_AUDIT"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_DIR_AUDIT_HOME}/gpm-transaction.log.1</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{"yyyy-MM-dd HH:mm:ss,SSS"} %-5level [%logger - %M] -
+				%msg%n
+			</Pattern>
+			<immediateFlush>${FLUSH_SETTING}</immediateFlush>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOG_DIR_ARCHIVE_HOME}/gpm-transaction.%d{yyyy-MM-dd}.%i.log.gz
+			</fileNamePattern>
+			<!-- keep number of days' worth of history -->
+			<maxHistory>${MAX_DAYS_LOG_HISTORY}</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>${MAX_LOG_FILE_SIZE}</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<cleanHistoryOnStart>false</cleanHistoryOnStart>
+		</rollingPolicy>
+	</appender>
+	<!-- RE GPM Transaction Loggers -->
+	<logger name="com.hilton.hhonors.reimbursement.data.gpm.MessageSender"
+		additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="RE_GPM_TXN_FILE_AUDIT" />
+	</logger>
+	<!-- RE Loggers -->
+	<logger name="com.hilton">
+		<level value="DEBUG" />
+		<appender-ref ref="RE_LOG_FILE_AUDIT" />
+	</logger>
+	<!-- Send logs to both console and file audit -->
+
+	<root level="OFF">
+
+		<!-- <appender-ref ref="STDOUT" /> -->
+		<!-- ON SANDBOX, YOU MIGHT WANT TO USE THE STDOUT as CONSOLE APPENDER IN 
+			ORDER TO VIEW LOGS WITHIN THE ECLIPSE CONSOLE -->
+	</root>
+</configuration>

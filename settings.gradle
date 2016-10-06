@@ -1,0 +1,11 @@
+rootProject.name = 'retail-api'
+include ':retail-api-service'
+include ':retail-api-data'
+include ':retail-api-entity'
+include ':retail-api-ws'
+
+project(':retail-api-service').projectDir = "$rootDir/retail-api-service" as File
+project(':retail-api-data').projectDir = "$rootDir/retail-api-data" as File
+project(':retail-api-entity').projectDir = "$rootDir/retail-api-entity" as File
+project(':retail-api-ws').projectDir = "$rootDir/retail-api-ws" as File
+

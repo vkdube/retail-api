@@ -1,0 +1,5 @@
+#org.springsource.ide.eclipse.gradle.core.preferences.GradleProjectPreferences
+#Wed Sep 07 15:48:29 CDT 2016
+build.family.org.gradle.tooling.model.eclipse.HierarchicalEclipseProject=;retail-api-data;retail-api-entity;retail-api-service;retail-api-ws;
+org.springsource.ide.eclipse.gradle.linkedresources=
+org.springsource.ide.eclipse.gradle.rootprojectloc=
